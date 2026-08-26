@@ -34,5 +34,8 @@ Local/dev/e2e builds leave that unset (`base` = `/`).
 - Significance filter defaults to **on** (`p < 0.05`) for visible feature columns.
 - WaveRoll is loaded as a web component; prefer exercising it in the browser rather
   than unit tests (unit tests cover column filtering logic).
+- Explore / Test mode toggle: Test mode scaffolds a 3AFC trial by repeating the
+  selected melody's MIDI three times (`buildScaffoldTrial`) with an odd-one-out
+  picker. Real distinct alternatives come later.
 - A Python `.venv` at the repo root may exist for future `analysis/` work; it is
   not required to run the dashboard.

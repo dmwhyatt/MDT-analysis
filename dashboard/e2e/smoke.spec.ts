@@ -44,3 +44,26 @@ test('construct filter clears and switches without sticking', async ({ page }) =
   await expect(page.getByRole('columnheader', { name: 'Pitch range' })).toBeVisible()
   await expect(page.getByRole('columnheader', { name: 'Note density' })).toHaveCount(0)
 })
+
+test('test mode offers three options and records odd-one-out choice', async ({ page }) => {
+  await page.goto('/')
+
+  await page.getByRole('button', { name: /melody_0002/ }).click()
+  await page.getByRole('button', { name: 'Try this item in test mode' }).click()
+
+  await expect(page.getByRole('heading', { name: 'Test item: melody_0002' })).toBeVisible()
+  await expect(page.getByRole('group', { name: 'Trial alternatives' })).toBeVisible()
+  await expect(page.getByText('Option 1')).toBeVisible()
+  await expect(page.getByText('Option 2')).toBeVisible()
+  await expect(page.getByText('Option 3')).toBeVisible()
+
+  await page.getByRole('button', { name: 'Play' }).nth(1).click()
+  await expect(page.getByRole('heading', { level: 2, name: /option 2/i })).toBeVisible()
+
+  await page.getByRole('radio', { name: 'Odd one out' }).nth(2).check()
+  await page.getByRole('button', { name: 'Submit choice' }).click()
+  await expect(page.getByRole('status')).toContainText(/Recorded option 3/)
+
+  await page.getByRole('button', { name: 'Back to explore' }).click()
+  await expect(page.getByRole('button', { name: 'Try this item in test mode' })).toBeVisible()
+})
