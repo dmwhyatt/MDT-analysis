@@ -2,18 +2,37 @@
 
 ## Cursor Cloud specific instructions
 
-`MDT-analysis` is intended to hold Python analysis scripts for a 3AFC (three-alternative
-forced choice) melodic discrimination test. As of now the repository is a fresh scaffold:
-it contains only `README.md`, `LICENSE`, and a standard Python `.gitignore` — there is no
-committed source code, dependency manifest, test suite, lint config, or runnable service yet.
+`MDT-analysis` hosts MDT analyses and a static exploration dashboard.
 
-- Language/stack: Python (the `.gitignore` is the standard GitHub Python template, hinting at
-  `venv`/`uv`/`poetry`, `pytest`, `ruff`/`mypy`, and possibly Jupyter/Streamlit for future work).
-- A virtual environment lives at `.venv` (gitignored). Activate it with `. .venv/bin/activate`.
-  The startup update script (re)creates it and installs dependencies from `requirements.txt`
-  and/or `pyproject.toml` when those files exist, so no manual bootstrap is normally needed.
-- System dependency `python3.12-venv` is required to create the venv and is baked into the VM;
-  it is intentionally NOT in the update script (the update script must not install system deps).
-- There is nothing to lint/test/build/run until source code and a dependency manifest are added.
-  Once they are, run everything through the `.venv` interpreter (e.g. `.venv/bin/python -m pytest`,
-  `.venv/bin/python -m ruff check .`).
+### Layout
+
+- `dashboard/` — Vite + React SPA (TanStack Table, Tom Select, WaveRoll). This is
+  the primary runnable app today.
+- `analysis/` — reserved for Python analyses; precomputed CSV/JSON should be
+  written into `dashboard/public/data/`.
+- No live feature recomputation in the browser; values are static artifacts.
+
+### Dashboard commands
+
+Run from `dashboard/` after `npm ci` (also performed by the VM update script):
+
+- Dev server: `npm run dev` (http://localhost:5173)
+- Lint: `npm run lint` (oxlint)
+- Unit tests: `npm run test` (Vitest)
+- Build: `npm run build`
+- Preview: `npm run preview`
+- E2E smoke: `npm run build && npm run test:e2e` (Playwright Chromium; first time
+  run `npm run test:e2e:install`)
+
+Production Pages builds set `GITHUB_PAGES=true` so Vite `base` is `/MDT-analysis/`.
+Local/dev/e2e builds leave that unset (`base` = `/`).
+
+### Notes
+
+- Fixture shell uses five MIDI files named `melody_000N.mid` and
+  `public/data/melodies.json` (schemaVersion 1).
+- Significance filter defaults to **on** (`p < 0.05`) for visible feature columns.
+- WaveRoll is loaded as a web component; prefer exercising it in the browser rather
+  than unit tests (unit tests cover column filtering logic).
+- A Python `.venv` at the repo root may exist for future `analysis/` work; it is
+  not required to run the dashboard.
