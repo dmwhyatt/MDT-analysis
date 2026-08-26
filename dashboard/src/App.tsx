@@ -49,33 +49,6 @@ function App() {
     })
   }, [dataset, constructs, significantOnly])
 
-  // #region agent log
-  useEffect(() => {
-    const payload = {
-      sessionId: 'e1d0',
-      location: 'App.tsx:constructs',
-      message: 'App constructs state changed',
-      data: {
-        constructs,
-        visibleCount: visibleColumns.length,
-        totalColumns: dataset?.columns.length ?? 0,
-      },
-      timestamp: Date.now(),
-      hypothesisId: 'A,C',
-    }
-    fetch('http://127.0.0.1:7243/ingest/3f7e3c2a-0c0e-4e8a-9b1d-5a2f8c4e6d01', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'X-Debug-Session-Id': 'e1d0' },
-      body: JSON.stringify(payload),
-    }).catch(() => {})
-    fetch('/__debug_log', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
-    }).catch(() => {})
-  }, [constructs, visibleColumns.length, dataset?.columns.length])
-  // #endregion
-
   const selectedMelody = useMemo(
     () => dataset?.melodies.find((m) => m.id === selectedId) ?? null,
     [dataset, selectedId],
@@ -113,28 +86,7 @@ function App() {
         <ConstructSelect
           constructs={constructOptions}
           selected={constructs}
-          onChange={(next) => {
-            // #region agent log
-            fetch('/__debug_log', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                sessionId: 'e1d0',
-                location: 'App.tsx:onChange',
-                message: 'ConstructSelect onChange received in App',
-                data: {
-                  prev: constructs,
-                  next,
-                  sameRef: next === constructs,
-                  runId: 'post-fix',
-                },
-                timestamp: Date.now(),
-                hypothesisId: 'A,C',
-              }),
-            }).catch(() => {})
-            // #endregion
-            setConstructs(next)
-          }}
+          onChange={setConstructs}
         />
         <SignificanceToggle
           checked={significantOnly}
