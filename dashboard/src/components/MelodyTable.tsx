@@ -4,6 +4,7 @@ import {
   tableFeatures,
   useTable,
 } from '@tanstack/react-table'
+import Table from 'react-bootstrap/Table'
 import type { FeatureColumn, MelodyRow } from '../types/dataset'
 
 const features = tableFeatures({})
@@ -54,13 +55,13 @@ export function MelodyTable({
   })
 
   return (
-    <div className="table-wrap">
-      <table className="melody-table">
-        <thead>
+    <div className="table-responsive bg-white border rounded">
+      <Table hover size="sm" className="melody-table mb-0 align-middle">
+        <thead className="table-light">
           {table.getHeaderGroups().map((group) => (
             <tr key={group.id}>
               {group.headers.map((header) => (
-                <th key={header.id}>
+                <th key={header.id} scope="col" className="text-nowrap">
                   {header.isPlaceholder ? null : (
                     <table.FlexRender header={header} />
                   )}
@@ -88,7 +89,7 @@ export function MelodyTable({
                 aria-pressed={id === selectedId}
               >
                 {row.getAllCells().map((cell) => (
-                  <td key={cell.id}>
+                  <td key={cell.id} className="text-nowrap">
                     <table.FlexRender cell={cell} />
                   </td>
                 ))}
@@ -96,9 +97,11 @@ export function MelodyTable({
             )
           })}
         </tbody>
-      </table>
+      </Table>
       {melodies.length === 0 ? (
-        <p className="empty">No melodies match the current filters.</p>
+        <p className="p-3 mb-0 text-secondary">
+          No melodies match the current filters.
+        </p>
       ) : null}
     </div>
   )

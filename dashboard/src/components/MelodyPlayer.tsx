@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef } from 'react'
+import Card from 'react-bootstrap/Card'
 import 'wave-roll'
 import { assetUrl } from '../lib/assetUrl'
 
@@ -37,9 +38,13 @@ export function MelodyPlayer({ melodyId, midiPath }: MelodyPlayerProps) {
   }, [filesJson])
 
   return (
-    <section className="player" aria-label={`Piano roll for ${melodyId}`}>
-      <h2>{melodyId}</h2>
-      <div ref={hostRef} />
-    </section>
+    <Card as="section" aria-label={`Piano roll for ${melodyId}`}>
+      <Card.Body>
+        <Card.Title as="h2" className="h5">
+          {melodyId}
+        </Card.Title>
+        <div ref={hostRef} />
+      </Card.Body>
+    </Card>
   )
 }
