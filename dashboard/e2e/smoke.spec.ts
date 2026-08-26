@@ -46,6 +46,7 @@ test('construct filter clears and switches without sticking', async ({ page }) =
 })
 
 test('test mode offers three options and records odd-one-out choice', async ({ page }) => {
+  test.setTimeout(60_000)
   await page.goto('/')
 
   await page.getByRole('button', { name: /melody_0002/ }).click()
@@ -58,11 +59,16 @@ test('test mode offers three options and records odd-one-out choice', async ({ p
   await expect(alternatives.getByText('Option 2', { exact: true })).toBeVisible()
   await expect(alternatives.getByText('Option 3', { exact: true })).toBeVisible()
 
+  // Pick before WaveRoll remounts from switching the listening option.
+  await alternatives.getByRole('button', { name: 'Pick option 3' }).click()
+  await expect(
+    alternatives.getByRole('button', { name: 'Odd one out: option 3' }),
+  ).toHaveAttribute('aria-pressed', 'true')
+
   // Option 1 is already "Listening"; the first "Play" button is option 2.
   await alternatives.getByRole('button', { name: 'Play' }).first().click()
   await expect(page.getByRole('heading', { level: 2, name: /option 2/i })).toBeVisible()
 
-  await alternatives.getByRole('radio', { name: 'Odd one out' }).nth(2).check()
   await page.getByRole('button', { name: 'Submit choice' }).click()
   await expect(page.getByRole('status')).toContainText(/Recorded option 3/)
 

@@ -55,19 +55,19 @@ export function TestMode({ melodyId, midiPath, onExit }: TestModeProps) {
               >
                 {isListening ? 'Listening' : 'Play'}
               </button>
-              <label className="test-option-pick">
-                <input
-                  type="radio"
-                  name="odd-one-out"
-                  value={option.position}
-                  checked={choice === option.position}
-                  onChange={() => {
-                    setChoice(option.position)
-                    setSubmitted(null)
-                  }}
-                />
-                Odd one out
-              </label>
+              <button
+                type="button"
+                className={isChosen ? 'btn primary' : 'btn'}
+                aria-pressed={isChosen}
+                onClick={() => {
+                  setChoice(option.position)
+                  setSubmitted(null)
+                }}
+              >
+                {isChosen
+                  ? `Odd one out: option ${option.label}`
+                  : `Pick option ${option.label}`}
+              </button>
             </div>
           )
         })}
