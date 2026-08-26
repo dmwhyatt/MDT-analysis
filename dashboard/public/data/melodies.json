@@ -1,0 +1,92 @@
+{
+  "schemaVersion": 1,
+  "melodies": [
+    {
+      "id": "melody_0001",
+      "midiPath": "midi/melody_0001.mid",
+      "features": {
+        "absolute_pitch.pitch_range": 7,
+        "tonalness.key_clarity": 0.82,
+        "rhythm.note_density": 2.1,
+        "absolute_pitch.mean_pitch": 63.6,
+        "rhythm.syncopation": 0.12
+      }
+    },
+    {
+      "id": "melody_0002",
+      "midiPath": "midi/melody_0002.mid",
+      "features": {
+        "absolute_pitch.pitch_range": 7,
+        "tonalness.key_clarity": 0.79,
+        "rhythm.note_density": 2.0,
+        "absolute_pitch.mean_pitch": 63.6,
+        "rhythm.syncopation": 0.1
+      }
+    },
+    {
+      "id": "melody_0003",
+      "midiPath": "midi/melody_0003.mid",
+      "features": {
+        "absolute_pitch.pitch_range": 12,
+        "tonalness.key_clarity": 0.91,
+        "rhythm.note_density": 1.5,
+        "absolute_pitch.mean_pitch": 65.75,
+        "rhythm.syncopation": 0.05
+      }
+    },
+    {
+      "id": "melody_0004",
+      "midiPath": "midi/melody_0004.mid",
+      "features": {
+        "absolute_pitch.pitch_range": 9,
+        "tonalness.key_clarity": 0.55,
+        "rhythm.note_density": 2.4,
+        "absolute_pitch.mean_pitch": 66.5,
+        "rhythm.syncopation": 0.28
+      }
+    },
+    {
+      "id": "melody_0005",
+      "midiPath": "midi/melody_0005.mid",
+      "features": {
+        "absolute_pitch.pitch_range": 9,
+        "tonalness.key_clarity": 0.88,
+        "rhythm.note_density": 2.8,
+        "absolute_pitch.mean_pitch": 65.3,
+        "rhythm.syncopation": 0.15
+      }
+    }
+  ],
+  "columns": [
+    {
+      "id": "absolute_pitch.pitch_range",
+      "label": "Pitch range",
+      "construct": "Pitch",
+      "pValue": 0.01
+    },
+    {
+      "id": "absolute_pitch.mean_pitch",
+      "label": "Mean pitch",
+      "construct": "Pitch",
+      "pValue": 0.12
+    },
+    {
+      "id": "tonalness.key_clarity",
+      "label": "Key clarity",
+      "construct": "Tonalness",
+      "pValue": 0.03
+    },
+    {
+      "id": "rhythm.note_density",
+      "label": "Note density",
+      "construct": "Rhythm",
+      "pValue": 0.04
+    },
+    {
+      "id": "rhythm.syncopation",
+      "label": "Syncopation",
+      "construct": "Rhythm",
+      "pValue": 0.21
+    }
+  ]
+}
