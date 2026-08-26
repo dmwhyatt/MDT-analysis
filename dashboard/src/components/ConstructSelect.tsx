@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import TomSelect from 'tom-select'
 import 'tom-select/dist/css/tom-select.default.css'
+import { tomSelectValues } from '../lib/tomSelectValue'
 
 interface ConstructSelectProps {
   constructs: string[]
@@ -25,8 +26,9 @@ export function ConstructSelect({ constructs, selected, onChange }: ConstructSel
       maxItems: null,
       placeholder: 'Filter by construct…',
       onChange(value: string | string[]) {
-        const next = Array.isArray(value) ? value : value ? [value] : []
-        onChangeRef.current(next)
+        // Tom Select passes its live `items` array by reference; copy so React
+        // state is not mutated in place (which causes setState bailouts).
+        onChangeRef.current(tomSelectValues(value))
       },
     })
 
@@ -39,8 +41,7 @@ export function ConstructSelect({ constructs, selected, onChange }: ConstructSel
   useEffect(() => {
     const tom = tomRef.current
     if (!tom) return
-    const current = tom.getValue()
-    const currentArr = Array.isArray(current) ? current : current ? [current] : []
+    const currentArr = tomSelectValues(tom.getValue())
     const same =
       currentArr.length === selected.length &&
       currentArr.every((v, i) => v === selected[i])
