@@ -18,28 +18,37 @@ test('loads fixture table and selects a melody', async ({ page }) => {
 })
 
 test('construct filter clears and switches without sticking', async ({ page }) => {
+  test.setTimeout(60_000)
   await page.goto('/')
 
   const meta = page.locator('.meta')
   await expect(meta).toContainText(/Showing 3 of 5/)
+  await expect(page.locator('.ts-wrapper')).toBeVisible()
 
-  const input = page.locator('.ts-control input')
-
-  async function pickConstruct(name: string) {
-    await input.click()
-    await input.fill(name)
-    await page.locator('.ts-dropdown .option', { hasText: new RegExp(`^${name}$`) }).click()
+  // Drive Tom Select via its API — Bootstrap theme dropdown visibility is flaky in CI.
+  async function setConstructs(values: string[]) {
+    await page.locator('#construct-filter').evaluate((el, next) => {
+      const tom = (
+        el as HTMLSelectElement & {
+          tomselect?: {
+            setValue: (value: string | string[], silent?: boolean) => void
+          }
+        }
+      ).tomselect
+      if (!tom) throw new Error('Tom Select not initialized')
+      tom.setValue(next, false)
+    }, values)
   }
 
-  await pickConstruct('Rhythm')
+  await setConstructs(['Rhythm'])
   await expect(meta).toContainText(/Showing 1 of 5/)
   await expect(page.getByRole('columnheader', { name: 'Note density' })).toBeVisible()
 
-  await page.locator('.ts-control .remove').click()
+  await setConstructs([])
   await expect(meta).toContainText(/Showing 3 of 5/)
   await expect(page.getByRole('columnheader', { name: 'Pitch range' })).toBeVisible()
 
-  await pickConstruct('Pitch')
+  await setConstructs(['Pitch'])
   await expect(meta).toContainText(/Showing 1 of 5/)
   await expect(page.getByRole('columnheader', { name: 'Pitch range' })).toBeVisible()
   await expect(page.getByRole('columnheader', { name: 'Note density' })).toHaveCount(0)

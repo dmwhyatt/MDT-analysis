@@ -40,5 +40,7 @@ Local/dev/e2e builds leave that unset (`base` = `/`).
   piano roll — so the odd one out cannot be identified visually. Real distinct
   alternatives come later.
 - WaveRoll remains for Explore mode inspection only.
+- UI uses **Bootstrap 5** + **react-bootstrap** for layout/components (responsive
+  grid, cards, buttons, alerts, table). Tom Select uses its Bootstrap 5 theme.
 - A Python `.venv` at the repo root may exist for future `analysis/` work; it is
   not required to run the dashboard.

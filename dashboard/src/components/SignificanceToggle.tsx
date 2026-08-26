@@ -1,3 +1,5 @@
+import Form from 'react-bootstrap/Form'
+
 interface SignificanceToggleProps {
   checked: boolean
   onChange: (checked: boolean) => void
@@ -10,13 +12,12 @@ export function SignificanceToggle({
   alpha = 0.05,
 }: SignificanceToggleProps) {
   return (
-    <label className="control checkbox">
-      <input
-        type="checkbox"
-        checked={checked}
-        onChange={(e) => onChange(e.target.checked)}
-      />
-      <span>Significant only (p &lt; {alpha})</span>
-    </label>
+    <Form.Check
+      type="checkbox"
+      id="significant-only"
+      label={`Significant only (p < ${alpha})`}
+      checked={checked}
+      onChange={(e) => onChange(e.target.checked)}
+    />
   )
 }

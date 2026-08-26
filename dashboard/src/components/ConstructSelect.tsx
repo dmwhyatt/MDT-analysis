@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
+import Form from 'react-bootstrap/Form'
 import TomSelect from 'tom-select'
-import 'tom-select/dist/css/tom-select.default.css'
+import 'tom-select/dist/css/tom-select.bootstrap5.css'
 import { tomSelectValues } from '../lib/tomSelectValue'
 
 interface ConstructSelectProps {
@@ -51,15 +52,25 @@ export function ConstructSelect({ constructs, selected, onChange }: ConstructSel
   }, [selected])
 
   return (
-    <label className="control">
-      <span className="control-label">Constructs</span>
-      <select ref={selectRef} multiple defaultValue={selected}>
+    <Form.Group controlId="construct-filter">
+      <Form.Label className="small text-uppercase fw-semibold text-secondary mb-1">
+        Constructs
+      </Form.Label>
+      {/* Native select: Bootstrap Form.Select classes fight Tom Select's control. */}
+      <select
+        id="construct-filter"
+        ref={selectRef}
+        multiple
+        defaultValue={selected}
+        className="form-control"
+        data-testid="construct-filter"
+      >
         {constructs.map((name) => (
           <option key={name} value={name}>
             {name}
           </option>
         ))}
       </select>
-    </label>
+    </Form.Group>
   )
 }
