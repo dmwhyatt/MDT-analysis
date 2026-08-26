@@ -56,13 +56,21 @@ export function ConstructSelect({ constructs, selected, onChange }: ConstructSel
       <Form.Label className="small text-uppercase fw-semibold text-secondary mb-1">
         Constructs
       </Form.Label>
-      <Form.Select ref={selectRef} multiple defaultValue={selected}>
+      {/* Native select: Bootstrap Form.Select classes fight Tom Select's control. */}
+      <select
+        id="construct-filter"
+        ref={selectRef}
+        multiple
+        defaultValue={selected}
+        className="form-control"
+        data-testid="construct-filter"
+      >
         {constructs.map((name) => (
           <option key={name} value={name}>
             {name}
           </option>
         ))}
-      </Form.Select>
+      </select>
     </Form.Group>
   )
 }
