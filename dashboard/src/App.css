@@ -248,3 +248,12 @@
   margin: 0;
   color: #2f6f4e;
 }
+
+.test-privacy {
+  margin: 0;
+  padding: 0.75rem 1rem;
+  background: #f3f8f5;
+  border: 1px solid #cfe0d5;
+  color: #2f6f4e;
+  font-size: 0.95rem;
+}

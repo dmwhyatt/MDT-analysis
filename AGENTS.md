@@ -36,6 +36,9 @@ Local/dev/e2e builds leave that unset (`base` = `/`).
   than unit tests (unit tests cover column filtering logic).
 - Explore / Test mode toggle: Test mode scaffolds a 3AFC trial by repeating the
   selected melody's MIDI three times (`buildScaffoldTrial`) with an odd-one-out
-  picker. Real distinct alternatives come later.
+  picker. Playback is **audio-only** (Tone.js / `@tonejs/midi`) — no WaveRoll
+  piano roll — so the odd one out cannot be identified visually. Real distinct
+  alternatives come later.
+- WaveRoll remains for Explore mode inspection only.
 - A Python `.venv` at the repo root may exist for future `analysis/` work; it is
   not required to run the dashboard.
